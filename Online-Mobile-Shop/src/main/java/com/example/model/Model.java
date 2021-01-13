@@ -81,14 +81,6 @@ public class Model {
 		this.mod_code = mod_code;
 	}
 
-	public Smartphone getSmartphone() {
-		return smartphone;
-	}
-
-	public void setSmartphone(Smartphone smartphone) {
-		this.smartphone = smartphone;
-	}
-
 	@Override
 	public String toString() {
 		return "Model [mod_id=" + mod_id + ", name=" + name + ", version=" + version + ", mod_code=" + mod_code + "]";

@@ -55,4 +55,10 @@ public class SmartPhnImpl implements SmartPhoneService{
 		log.info("Phone description save successfully[{}]",smartphoneList.toString());
 		
 	}
+
+	@Override
+	public List<Smartphone> allData() {
+		// TODO Auto-generated method stub
+		return smartphoneRepo.findAll();
+	}
 }

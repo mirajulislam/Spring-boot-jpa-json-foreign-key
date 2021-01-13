@@ -47,13 +47,11 @@ public class Smartphone {
 	 * @param features
 	 */
     @JsonCreator
-	public Smartphone(Integer b_id, String brand, String d_code, Model model, Features features) {
+	public Smartphone(Integer b_id, String brand, String d_code) {
 		super();
 		this.b_id = b_id;
 		this.brand = brand;
 		this.d_code = d_code;
-		this.model = model;
-		this.features = features;
 	}
 
 	public Integer getB_id() {

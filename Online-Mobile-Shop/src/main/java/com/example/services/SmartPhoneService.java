@@ -15,4 +15,5 @@ public interface SmartPhoneService {
 	
 	public void saveSmartPhone(Smartphone smartphone);	
 	public void saveListSmartPhone(List<Smartphone> smartphone);
+	public List<Smartphone> allData();
 }

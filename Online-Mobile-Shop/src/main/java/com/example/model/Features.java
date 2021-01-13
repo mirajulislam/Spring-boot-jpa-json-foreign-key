@@ -103,13 +103,6 @@ public class Features {
 		this.capacity = capacity;
 	}
 
-	public Smartphone getSmartphone() {
-		return smartphone;
-	}
-
-	public void setSmartphone(Smartphone smartphone) {
-		this.smartphone = smartphone;
-	}
 
 	@Override
 	public String toString() {

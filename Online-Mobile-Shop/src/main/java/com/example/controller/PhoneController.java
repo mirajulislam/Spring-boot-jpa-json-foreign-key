@@ -40,5 +40,10 @@ public class PhoneController {
 		    smartPhoneService.saveListSmartPhone(smartphones);
 	        return ResponseEntity.ok(new MessageResponse("Stored New Phone successfully"));
 	    }
+	
+	@RequestMapping(value = "/getSmartphoneList", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	    public List<Smartphone> getAllSmartphones() {
+	        return smartPhoneService.allData();
+	    }
 
 }
