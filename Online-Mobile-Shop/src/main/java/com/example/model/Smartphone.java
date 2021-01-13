@@ -3,12 +3,18 @@
  */
 package com.example.model;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -34,7 +40,10 @@ public class Smartphone {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fearures_id", referencedColumnName = "fs_id")
     private  Features features;
- 
+    
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="smartphone")
+    private List<PhoneDocuments> phoneDocuments= new ArrayList<PhoneDocuments>();
+    
 	public Smartphone() {
 		super();
 	}
@@ -92,6 +101,14 @@ public class Smartphone {
 
 	public void setFeatures(Features features) {
 		this.features = features;
+	}
+
+	public List<PhoneDocuments> getPhoneDocuments() {
+		return phoneDocuments;
+	}
+
+	public void setPhoneDocuments(List<PhoneDocuments> phoneDocuments) {
+		this.phoneDocuments = phoneDocuments;
 	}
 
 	@Override
