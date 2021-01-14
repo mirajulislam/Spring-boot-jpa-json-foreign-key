@@ -2,7 +2,14 @@ package com.example.services;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,8 +40,8 @@ public class PhoneDocumentsServices {
         }
     }
 
-    public PhoneDocuments getFile(Integer fileId) throws FileNotFoundException {
-        return phoneDocumentsRepository.findById(fileId).orElseThrow(()-> new FileNotFoundException("File not found with id " + fileId));
+    public PhoneDocuments getFile(Integer id) throws FileNotFoundException {
+        return phoneDocumentsRepository.findById(id).orElseThrow(()-> new FileNotFoundException("File not found with id " + id));
     }
 
 }

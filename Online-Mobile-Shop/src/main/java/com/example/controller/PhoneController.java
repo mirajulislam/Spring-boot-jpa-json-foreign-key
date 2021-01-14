@@ -3,10 +3,16 @@
  */
 package com.example.controller;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +35,7 @@ public class PhoneController {
 	@RequestMapping(value = "/smartphone", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<MessageResponse> addSmartphone(@RequestBody Smartphone smartphone) {
-		smartPhoneService.saveSmartPhone(smartphone);
+		smartPhoneService.saveSmartPhone(smartphone,null);
 		return ResponseEntity.ok(new MessageResponse("Stored New Phone successfully"));
 	}
 
@@ -45,9 +51,14 @@ public class PhoneController {
 		return smartPhoneService.allData();
 	}
 
-	@RequestMapping(value = "/searchData")
+	@RequestMapping(value = "/searchData", method = RequestMethod.GET)
 	public List<GridData> getDbJoinData(@RequestBody Smartphone smartphone) {
 		return smartPhoneService.getSearchData(smartphone);
 	}
+	
+	@GetMapping("/downloadFile/{id}")
+    public ResponseEntity < Resource > doDownloadFile(@PathVariable Integer id, HttpServletRequest request) throws FileNotFoundException {
+		return smartPhoneService.downloadFile(id, request);    
+    }
 
 }

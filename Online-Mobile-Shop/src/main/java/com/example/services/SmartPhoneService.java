@@ -5,7 +5,6 @@ package com.example.services;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.model.Smartphone;
@@ -16,7 +15,7 @@ import com.example.model.Smartphone;
 
 public interface SmartPhoneService {
 
-	public void saveSmartPhone(Smartphone smartphone);
+	public void saveSmartPhone(Smartphone smartphone, MultipartFile[] files);
 
 	//public void saveListSmartPhone(List<Smartphone> smartphone);
 	public List<Smartphone> allData();
