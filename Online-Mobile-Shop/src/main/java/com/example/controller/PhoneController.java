@@ -45,9 +45,9 @@ public class PhoneController {
 		return smartPhoneService.allData();
 	}
 
-	@RequestMapping(value = "/joinData")
+	@RequestMapping(value = "/searchData")
 	public List<GridData> getDbJoinData(@RequestBody Smartphone smartphone) {
-		return smartPhoneService.getData(smartphone);
+		return smartPhoneService.getSearchData(smartphone);
 	}
 
 }

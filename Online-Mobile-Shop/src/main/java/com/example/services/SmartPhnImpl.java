@@ -84,8 +84,8 @@ public class SmartPhnImpl implements SmartPhoneService {
 		return new Response(fileName.getFileName(), fileDownloadUri, file.getContentType(), file.getSize());
 	}
 
-	public List<GridData> getData(Smartphone smartphone) {
-		List<GridData> joinData = smartphoneRepo.getJoinData(smartphone);
+	public List<GridData> getSearchData(Smartphone smartphone) {
+		List<GridData> joinData = smartphoneRepo.getSearchGridData(smartphone);
 		return joinData;
 	}
 

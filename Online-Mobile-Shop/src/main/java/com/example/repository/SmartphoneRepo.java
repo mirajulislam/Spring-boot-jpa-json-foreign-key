@@ -36,6 +36,6 @@ public interface SmartphoneRepo extends JpaRepository<Smartphone, Integer> {
 			"   WHERE (:#{#smartphone.b_id} is null or sm.b_id = :#{#smartphone.b_id}) \r\n" + 
 			"   AND   (:#{#smartphone.brand} is null or sm.brand = :#{#smartphone.brand})\r\n" + 
 			"   AND   (:#{#smartphone.d_code} is null or sm.d_code = :#{#smartphone.d_code})", nativeQuery = true)
-	public List<GridData> getJoinData( @Param("smartphone") Smartphone smartphone);
+	public List<GridData> getSearchGridData( @Param("smartphone") Smartphone smartphone);
 
 }
