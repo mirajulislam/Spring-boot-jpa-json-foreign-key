@@ -3,7 +3,9 @@
  */
 package com.example.controller;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.model.GridData;
 import com.example.model.Smartphone;
 import com.example.payload.response.MessageResponse;
+import com.example.services.ReportServices;
 import com.example.services.SmartPhnImpl;
 
 /**
@@ -31,6 +34,9 @@ import com.example.services.SmartPhnImpl;
 public class PhoneController {
 	@Autowired
 	private SmartPhnImpl smartPhoneService;
+	
+	@Autowired
+	private ReportServices reportServices;
 
 	@RequestMapping(value = "/smartphone", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -54,6 +60,11 @@ public class PhoneController {
 	@RequestMapping(value = "/searchData", method = RequestMethod.GET)
 	public List<GridData> getDbJoinData(@RequestBody Smartphone smartphone) {
 		return smartPhoneService.getSearchData(smartphone);
+	}
+	
+	@RequestMapping(value = "/report", method = RequestMethod.GET)
+	public File getReport(@RequestBody Smartphone smartphone) throws IOException {
+		return reportServices.reportDownloand(smartphone);
 	}
 	
 	@GetMapping("/downloadFile/{id}")
