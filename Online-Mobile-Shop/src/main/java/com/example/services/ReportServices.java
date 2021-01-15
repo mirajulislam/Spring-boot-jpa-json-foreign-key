@@ -2,12 +2,18 @@ package com.example.services;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.InputStream;
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.hibernate.Session;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,15 +26,26 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import com.example.controller.PhoneController;
 import com.example.model.GridData;
 import com.example.model.Smartphone;
 import com.example.repository.SmartphoneRepo;
-import com.ibm.icu.text.SimpleDateFormat;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 @PropertySource("classpath:app.properties")
 
@@ -39,6 +56,7 @@ public class ReportServices {
 	String reportColumn;
 	//private static final DateFormat df = new SimpleDateFormat("yyMM");
 	private final static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	private static Logger log = LoggerFactory.getLogger(ReportServices.class);
 	
 	@Autowired
 	private SmartphoneRepo smartphoneRepo;
@@ -147,5 +165,44 @@ public class ReportServices {
 
 				workbook.close();
 				return tempFile;				
+	}
+	
+	public JasperPrint getPhonePdfReportGenerate(HttpServletRequest request) throws Exception {
+		
+		String brand = request.getParameter("brand");
+		//Integer b_id = Integer.parseInt(request.getParameter("b_id"));
+		//log.debug("Generating Report ", b_id);
+		
+		Date reportGenDate = new Date();
+		DateFormat dateFormatFull = new SimpleDateFormat("dd MMM, yyyy HH:mm:ss a");
+		JasperDesign jasperDesign;
+		JasperPrint jasperPrint = null;
+		JasperReport jasperReport;
+		InputStream template = null;
+		
+		Map<String, Object> spArgsMap = new LinkedHashMap<String, Object>();
+		Smartphone smartphone=new Smartphone();
+		
+		try {
+			//smartphone.setB_id(b_id);
+			smartphone.setBrand(brand);
+			
+			List<GridData>data=smartphoneRepo.getSearchGridData(smartphone);
+			log.info("Received GUI request for Phone report"+data.toString());
+			spArgsMap.put("memofullDate", dateFormatFull.format(reportGenDate).toString());
+			//spArgsMap.put("ds_loan_view_memo",  new JRResultSetDataSource((ResultSet) data));
+			template = getClass().getResourceAsStream("/report/phone_report.jrxml");
+			jasperDesign = JRXmlLoader.load(template);
+			jasperReport = JasperCompileManager.compileReport(jasperDesign);
+			jasperPrint = JasperFillManager.fillReport(jasperReport, spArgsMap, new JREmptyDataSource());		
+			
+		} catch (Exception ex) {
+			log.error("Memo Bulk Report report error : {}", ex.getLocalizedMessage());
+
+			throw ex;
+		}
+
+		return jasperPrint;
+		
 	}
 }
