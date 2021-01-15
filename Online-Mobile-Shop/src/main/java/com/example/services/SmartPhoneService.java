@@ -19,7 +19,6 @@ public interface SmartPhoneService {
 
 	//public void saveListSmartPhone(List<Smartphone> smartphone);
 	public List<Smartphone> allData();
-
 	void saveListSmartPhone(List<Smartphone> smartphoneList, MultipartFile[] files);
 
 }
