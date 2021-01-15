@@ -3,10 +3,13 @@ package com.example.services;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -40,9 +43,26 @@ public class ReportServices {
 	@Autowired
 	private SmartphoneRepo smartphoneRepo;
 	
-	public File reportDownloand(Smartphone smartphone) throws IOException {
+	public File reportDownloand(HttpServletRequest request) throws Exception {
 		// Create a Workbook
-		        List<GridData> joinData = smartphoneRepo.getSearchGridData(smartphone);
+//		        String brand = request.getParameter("brand");
+//		        String d_code = request.getParameter("d_code");
+		        
+		        String b_id=request.getParameter("b_id");  
+		        
+		    	if (b_id == null || b_id.length() == 0) {
+					throw new Exception("Empty Request.");
+				}
+				String[] b_ids = b_id.split(",");
+				Smartphone smartphone=new Smartphone();
+				List<GridData> dataList = new ArrayList<GridData>();
+					         
+				for (int i = 0; i < b_ids.length; i++) {
+					smartphone.setB_id(Integer.parseInt(b_ids[i]));
+					List<GridData>data = smartphoneRepo.getSearchGridData(smartphone);	
+					dataList.addAll(data);
+				}
+				
 				Workbook workbook = new XSSFWorkbook(); // new HSSFWorkbook() for generating `.xls` file
 
 				// CreationHelper helps us create instances of various things like DataFormat,
@@ -74,10 +94,8 @@ public class ReportServices {
 				}
 				
 				Map<String, Object[]> data = new HashMap<String, Object[]>();
-				
-				for(int count=0;count<joinData.size();count++) {
-					GridData gridData = joinData.get(count);
-					/*fetch value from db row by model class*/
+				for (int count = 0; count < dataList.size(); count++) {
+					GridData gridData = dataList.get(count);
 					data.put(String.valueOf(count),
 					        new Object[] { (count + 1), gridData.getb_id(),gridData.getbrand(),gridData.getd_code(),gridData.getname()
 					        		, gridData.getmod_code(),gridData.getversion(),gridData.getcamera(),gridData.getbattary()
@@ -90,7 +108,7 @@ public class ReportServices {
 				// Create Other rows and cells with employees data
 
 				int rownum = 1;
-				for (int key = 0; key < joinData.size(); key++) {
+				for (int key = 0; key < dataList.size(); key++) {
 
 					headerRow = sheet.createRow(rownum++);
 
@@ -128,6 +146,6 @@ public class ReportServices {
 				fileOut.close();
 
 				workbook.close();
-				return tempFile;		
+				return tempFile;				
 	}
 }
