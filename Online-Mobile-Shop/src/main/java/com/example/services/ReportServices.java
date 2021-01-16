@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
@@ -189,12 +190,13 @@ public class ReportServices {
 			
 			List<GridData>data=smartphoneRepo.getSearchGridData(smartphone);
 			log.info("Received GUI request for Phone report"+data.toString());
-			spArgsMap.put("memofullDate", dateFormatFull.format(reportGenDate).toString());
+			//spArgsMap.put("memofullDate", dateFormatFull.format(reportGenDate).toString());
 			//spArgsMap.put("ds_loan_view_memo",  new JRResultSetDataSource((ResultSet) data));
 			template = getClass().getResourceAsStream("/report/phone_report.jrxml");
 			jasperDesign = JRXmlLoader.load(template);
 			jasperReport = JasperCompileManager.compileReport(jasperDesign);
-			jasperPrint = JasperFillManager.fillReport(jasperReport, spArgsMap, new JREmptyDataSource());		
+			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data);
+			jasperPrint = JasperFillManager.fillReport(jasperReport, spArgsMap, dataSource);		
 			
 		} catch (Exception ex) {
 			log.error("Memo Bulk Report report error : {}", ex.getLocalizedMessage());
