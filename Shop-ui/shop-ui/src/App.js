@@ -1,22 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Footer from './footerElement/Footer'
+import Footer from './Element/Footer'
+import Header from './Element/Header';
+import MainContent from './Element/MainContent';
+
 function App(){
   return(
     <div>
-      <nav>
-      <h1>Hello My Friend..</h1>
-      <p>How are you everyone?</p>
-      <ul>
-        <li>Raj</li>
-        <li>Esa</li>
-        <li>Miraj</li>
-        <li>Aminul</li>
-      </ul>
-      </nav>    
-      <main>
-        <p>I love my Country</p>
-      </main> 
+      <Header />
+      <MainContent />
       <Footer />
     </div>
   )  
