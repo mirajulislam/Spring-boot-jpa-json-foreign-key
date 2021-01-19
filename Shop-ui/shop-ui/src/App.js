@@ -1,19 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ContactCard from './component/ContactCard';
+import Joke from './Joke';
 
 function App(){
   return(
-    <div className="contacts">
-      <ContactCard  contact={{name:"Mr. Watson",imgUrl:"http://placekitten.com/300/200",phone:"01788002266",email:"watson@gmail.com"}}
-      />
-      <ContactCard  contact={{name:"Mr. Watson",imgUrl:"http://placekitten.com/400/200",phone:"01788002266",email:"watson@gmail.com"}}
-      />
-      <ContactCard  contact={{name:"Mr. Watson",imgUrl:"http://placekitten.com/400/300",phone:"01788002266",email:"watson@gmail.com"}}
-      />
-      <ContactCard  contact={{name:"Mr. Watson",imgUrl:"http://placekitten.com/200/100",phone:"01788002266",email:"watson@gmail.com"}}
-      />
-  </div>
+      <div>
+        <Joke 
+          answer="What Is your name ? as as as ds " 
+        />
+        <Joke 
+          question="What Is your name ?" 
+          answer="My name is raj"
+        />
+
+        <Joke 
+          question="What Is your name ?" 
+          answer="My name is raj"
+        />
+
+        <Joke 
+          question="What Is your name ?" 
+          answer="My name is raj"
+        />
+
+        <Joke 
+          question="What Is your name ?"
+          answer="My name is raj"
+        />
+      </div>
   )
 }
 export default App;
